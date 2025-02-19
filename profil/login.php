@@ -32,20 +32,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../style.css">
     <title>Connexion</title>
 </head>
-<header>
-<a href="../index.php"><p class="Acceuil">Acceuil</p></a>
-</header>
 <body>
+    <header>
+            <nav>
+                <ul>
+                    <li><a href="../index.php">Accueil</a></li>
+                    <li><a href="../livre-or.php">Livre d'Or</a></li>
+                    <li><a href="login.php">Connexion / Inscription</a></li>
+                </ul>
+            </nav>
+        </header>
     <div class="form-connection">
     <h2>Connexion</h2>
     <form method="POST">
-        <label for="username"><p>Nom d'utilisateur</p></label>
-        <input type="text" id="username" name="username" autocomplete="off" required><br><br>
-
-        <label for="password"><p>Mot de passe</p></label>
-        <input type="password" id="password" name="password" autocomplete="off" required><br><br>
-
-        <button type="submit"><p>Se connecter</p></button>
+        <div class="user-log">
+            <label for="username" class="label-login"><p>Nom d'utilisateur</p></label>
+            <input type="text" id="username" name="username" autocomplete="off" required class="input-login"><br><br>
+        </div>
+        <div class="mdp-log">
+            <label for="password" class="label-login"><p>Mot de passe</p></label>
+            <input type="password" id="password" name="password" autocomplete="off" required class="input-login"><br><br>
+        </div>
+        <button type="submit" class="bouton-login"><p>Se connecter</p></button>
 
         <!-- Affichage du message d'erreur sous le bouton -->
         <?php if (!empty($message)): ?>

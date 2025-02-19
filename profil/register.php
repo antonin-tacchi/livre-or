@@ -26,19 +26,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Inscription</title>
 </head>
 <header>
-<a href="../index.php"><p>Acceuil</p></a>
-</header>
+            <nav>
+                <ul>
+                    <li><a href="../index.php">Accueil</a></li>
+                    <li><a href="../livre-or.php">Livre d'Or</a></li>
+                    <li><a href="login.php">Connexion / Inscription</a></li>
+                </ul>
+            </nav>
+        </header>
 <body>
 <div class="form-connection">
     <h2>Inscription</h2>
     <form method="POST">
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="username" autocomplete="off" required><br><br>
-
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" autocomplete="off" required><br><br>
-
-        <button type="submit">S'inscrire</button>
+        <div class="user-log">
+            <label for="username" class="label-login">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" autocomplete="off" required class="input-login"><br><br>
+        </div>
+        <div class="mdp-log">
+            <label for="password" class="label-login">Mot de passe</label>
+            <input type="password" id="password" name="password" autocomplete="off" required class="input-login"><br><br>
+        </div>
+        <button type="submit" class="bouton-login">S'inscrire</button>
         <!-- Affichage du message d'erreur sous le bouton -->
         <?php if (!empty($message)): ?>
             <p class="error-message"><?php echo $message; ?></p>

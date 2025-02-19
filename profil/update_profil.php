@@ -17,17 +17,35 @@ if (!$user->isLoggedIn()) {
 // Récupérer les informations actuelles de l'utilisateur
 $user_info = $user->getUserInfo();
 
+// Par défaut, on masque le mot de passe
+$displayPassword = false;
+
 // Si le formulaire est soumis
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login = $_POST['login'];
     $password = $_POST['password'];
 
+    // Vérifier si un mot de passe a été fourni
+    if (!empty($password)) {
+        // Si un mot de passe est fourni, on le hache
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        // Sinon, on garde le mot de passe actuel (pas de changement)
+        $hashedPassword = null;
+    }
+
     // Appeler la méthode updateProfile pour mettre à jour les informations
-    $message = $user->updateProfile($login, $password);
+    $message = $user->updateProfile($login, $hashedPassword);
 
     // Récupérer les nouvelles informations après mise à jour
     $user_info = $user->getUserInfo();
+
+    // Si on clique sur le bouton pour afficher le mot de passe, on met à jour l'état
+    if (isset($_POST['toggle_password'])) {
+        $displayPassword = !$displayPassword;  // Alterner l'état d'affichage du mot de passe
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -35,35 +53,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <title>Modifier mon profil</title>
 </head>
-<header>
-<a href="index.php"><p class="Acceuil">Acceuil</p></a>
-</header>
 <body>
-    <div class="form-connection">
-        <h2>Modifier mon profil</h2>
-        
-        <!-- Affichage du message -->
-        <?php if (!empty($message)): ?>
-            <div class="message"><?php echo $message; ?></div>
-        <?php endif; ?>
-        
-        <form method="POST">
-            <label for="login">Nom d'utilisateur</label>
-            <input type="text" id="login" name="login" value="<?php echo htmlspecialchars($user_info['login']); ?>" required><br><br>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index2.php">Accueil</a></li>
+                <li><a href="../livre-or.php">Livre d'Or</a></li>
+                <li><a href="update_profil.php">Profil</a></li>
+                <li><a href="logout.php">Déconnexion</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <label for="password">Nouveau mot de passe</label>
-            <input type="password" id="password" name="password" autocomplete="off" required><br><br>
+    <div class="profil">
+        <main class="main-aff-profil">
+        </main>
+        <main class="main-profil">
+            <div class="form-connection">
+                <h2 class="h2-profil">Modifier mon profil</h2>
 
-            <button type="submit">Mettre à jour</button>
-        </form>
+                <!-- Affichage du message -->
+                <?php if (!empty($message)): ?>
+                    <div class="message"><?php echo $message; ?></div>
+                <?php endif; ?>
 
-        <p><a href="logout.php">Se déconnecter</a></p>
+                <!-- Afficher les informations actuelles avant modification -->
+                <h3>Informations actuelles :</h3>
+                <h2><strong>Nom d'utilisateur :</strong> <?php echo htmlspecialchars($user_info['login']); ?></h2>
+                
+                <!-- Affichage du mot de passe avec bouton pour afficher/masquer -->
+                <h2><strong>Mot de passe :</strong> 
+                    <?php 
+                    if ($displayPassword) {
+                        echo htmlspecialchars($user_info['password']);
+                    } else {
+                        echo '*****'; 
+                    }
+                    ?>
+                </h2>
+
+                <h3>Modifier mes informations :</h3>
+                <form method="POST" class="form-profil">
+                    <label for="login" class="label-profil">Nom d'utilisateur (modifier si nécessaire)</label>
+                    <input type="text" id="login" name="login" value="<?php echo htmlspecialchars($user_info['login']); ?>" autocomplete="off" required class="input-profil"><br><br>
+
+                    <label for="password" class="label-profil">Nouveau mot de passe</label>
+                    <input type="password" id="password" name="password" value="" autocomplete="off" class="input-profil" require><br><br>
+
+                    <button type="submit" class="bouton-profil">Mettre à jour</button>
+                </form>
+
+                <p><a href="logout.php">Se déconnecter</a></p>
+            </div>
+        </main>
     </div>
+
+    <footer class="update-footer">
+        <p>2025 - Tous droits réservés.</p>
+    </footer>
 </body>
-<footer class="update-footer">
-    <p>2025 Quizouille - Tous droits réservés.</p>
-</footer>
 </html>
