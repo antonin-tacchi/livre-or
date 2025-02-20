@@ -12,15 +12,29 @@ session_start();
 </head>
 <body>
 <header>
-        <nav>
-            <ul>
+    <nav>
+        <!-- Le bouton hamburger -->
+        <div class="hamburger" id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul id="menu" class="menu">
+            <?php if (isset($_SESSION['user'])): ?>
                 <li><a href="index2.php">Accueil</a></li>
                 <li><a href="livre-or.php">Livre d'Or</a></li>
                 <li><a href="profil/update_profil.php">Profil</a></li>
                 <li><a href="profil/logout.php">Déconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+            <?php endif; ?>
+            <?php if (!isset($_SESSION['user'])): ?>
+                <li><a href="index.php">Accueil</a></li>
+                <li><a href="livre-or.php">Livre d'Or</a></li>
+                <li><a href="profil/login.php">Connexion / Inscription</a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+</header>
 
     <main class="main-index">
         <h1>Bienvenue sur notre Livre d'Or</h1>

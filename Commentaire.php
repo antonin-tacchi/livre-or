@@ -1,13 +1,38 @@
+<?php
+session_start();
+require_once __DIR__ . "/classes/Comment.php"; // On inclut la classe Comment
+
+if (!isset($_SESSION['user'])) {
+    header("Location: /livre-or/profil/login.php");
+    exit();
+}
+
+$commentObj = new Comment();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['comment'])) {
+    $commentObj->addComment($_SESSION['user'], $_POST['comment']);
+    header("Location: commentaire.php");
+    exit();
+}
+
+$comments = $commentObj->getComments();
+?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
-    <title>Livre d'Or</title>
+    <title>Livre d'or</title>
 </head>
 <body>
+
 <header>
     <nav>
         <!-- Le bouton hamburger -->
@@ -33,31 +58,17 @@
     </nav>
 </header>
 
-    <main class="main-index">
-        <h1>Bienvenue sur notre Livre d'Or</h1>
-        <p>Merci de visiter notre site ! Lisez les témoignages et laissez le vôtre dans notre Livre d'Or.</p>
-
-        <section>
-            <h2>Qu'est-ce qu'un Livre d'Or ?</h2>
-            <p>C'est un espace pour partager vos impressions et expériences avec la communauté.</p>
-        </section>
-
-        <section>
-            <h2>Fonctionnalités</h2>
-            <ul>
-                <li>Lire des témoignages d'autres visiteurs.</li>
-                <li>Laisser un message (sur la page dédiée).</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Pourquoi laisser un message ?</h2>
-            <p>Partagez vos impressions et contribuez à la communauté.</p>
-        </section>
-    </main>
+    <div class="commentaire">
+        <h1 class="h1-com">Ajouter un commentaire</h1>
+        <form method="POST" action="" class="form-com">
+            <textarea name="comment" required class="text-com"></textarea>
+            <button type="submit" class="bouton-com">Envoyer</button>
+        </form>
+    </div>
 
     <footer>
         <p>&copy; 2025 Livre d'Or. Tous droits réservés.</p>
     </footer>
+
 </body>
 </html>

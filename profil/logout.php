@@ -1,6 +1,6 @@
 <?php
 // Inclure les fichiers nécessaires
-include_once 'User.php';  // Inclure la classe User (qui hérite de Database)
+require_once "../classes/User.php";
 
 // Créer une instance de la classe User (qui hérite de Database)
 $user = new User();

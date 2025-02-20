@@ -1,6 +1,6 @@
 <?php
 // Inclure la classe User
-include_once 'User.php';
+require_once "../classes/User.php";
 // Créer une instance de la classe User
 $user = new User();
 
@@ -57,16 +57,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Modifier mon profil</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
+<header>
+    <nav>
+        <!-- Le bouton hamburger -->
+        <div class="hamburger" id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul id="menu" class="menu">
+            <?php if (isset($_SESSION['user'])): ?>
                 <li><a href="../index2.php">Accueil</a></li>
                 <li><a href="../livre-or.php">Livre d'Or</a></li>
                 <li><a href="update_profil.php">Profil</a></li>
                 <li><a href="logout.php">Déconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+            <?php endif; ?>
+            <?php if (!isset($_SESSION['user'])): ?>
+                <li><a href="index.php">Accueil</a></li>
+                <li><a href="livre-or.php">Livre d'Or</a></li>
+                <li><a href="profil/login.php">Connexion / Inscription</a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+</header>
 
     <div class="profil">
         <main class="main-aff-profil">

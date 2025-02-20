@@ -1,6 +1,6 @@
 <?php
 // Inclure la classe User
-include_once 'User.php';  // Inclure la classe User qui hérite de Database
+require_once "../classes/User.php";
 
 // Créer une instance de la classe User (qui hérite de Database)
 $user = new User();
@@ -33,15 +33,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Connexion</title>
 </head>
 <body>
-    <header>
-            <nav>
-                <ul>
-                    <li><a href="../index.php">Accueil</a></li>
-                    <li><a href="../livre-or.php">Livre d'Or</a></li>
-                    <li><a href="login.php">Connexion / Inscription</a></li>
-                </ul>
-            </nav>
-        </header>
+<header>
+    <nav>
+        <!-- Le bouton hamburger -->
+        <div class="hamburger" id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul id="menu" class="menu">
+            <?php if (isset($_SESSION['user'])): ?>
+                <li><a href="index2.php">Accueil</a></li>
+                <li><a href="livre-or.php">Livre d'Or</a></li>
+                <li><a href="profil/update_profil.php">Profil</a></li>
+                <li><a href="profil/logout.php">Déconnexion</a></li>
+            <?php endif; ?>
+            <?php if (!isset($_SESSION['user'])): ?>
+                <li><a href="../index.php">Accueil</a></li>
+                <li><a href="../livre-or.php">Livre d'Or</a></li>
+                <li><a href="login.php">Connexion / Inscription</a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+</header>
     <div class="form-connection">
     <h2>Connexion</h2>
     <form method="POST">

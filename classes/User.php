@@ -1,5 +1,5 @@
 <?php
-include_once("../Database.php");
+include_once("Database.php");
 // Classe User qui hérite de la classe Database
 class User extends Database {
     private $user_id;
